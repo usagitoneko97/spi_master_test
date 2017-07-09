@@ -16,7 +16,7 @@ void setup (void)
   // Slow down the master a bit
   SPI.setClockDivider(SPI_CLOCK_DIV64);
   Serial.print("begin!!");
-  
+  digitalWrite(15, LOW);    // SS is pin 10
 }  // end of setup
 
 
@@ -24,14 +24,13 @@ void loop (void)
 {
   byte c = 0x73;
   byte d = 0xfd;
-  digitalWrite(15, LOW);    // SS is pin 10
+  
 
   do{
   buffer1 = SPI.transfer (c); 
   }while(buffer1 != 0x85);
-  
+  delay(1000);
   SPI.transfer(d);
-  delay (500); 
-  digitalWrite(15, HIGH);
+  //digitalWrite(15, HIGH);
   
 }  
