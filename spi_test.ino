@@ -2,10 +2,15 @@
 uint8_t buffer1;
 uint8_t buffer2;
 int  serIn;
-byte c = 0x73;
-byte d = 0xda;
-byte e = 0x7d;
 byte bufferSerial[3] = {0xff};
+const uint8_t DUMMY = 0xff;
+const uint8_t NOP = 0xff;
+const uint8_t NEED_WIFI = 0x2;
+const uint8_t DONE_SENDING = 0x3;
+uint8_t* WifiSSID;
+uint8_t* WifiPW;
+uint8_t PWSSIDlength;
+
 void setup (void)
 {
   Serial.begin(9600);
@@ -35,36 +40,32 @@ void loop (void)
   delay(100);
   }while(buffer1 != 0x85);
   */
-   //if(Serial.available()) {    
-    //inform that Arduino heard you saying something
-    //Serial.print("Arduino heard you say: ");
-    
-    //keep reading and printing from serial untill there are bytes in the serial buffer
-     //while (Serial.available()>0){
-        //Serial.readBytes(bufferSerial, 1);  //read Serial        
-        //Serial.print(bufferSerial[0]);  //prints the character just read
-        digitalWrite(15, LOW);    
-         while(buffer1 != 0xba){
-          buffer1 = SPI.transfer(c);
-          Serial.println(buffer1);
-          delay(10);
-         }
-        //Serial.println(buffer1);
-        //delay(60);
-        buffer1 = SPI.transfer(e);
-        //Serial.println(buffer1);
-        delay(60);
-        SPI.transfer(d);
+   if(Serial.available()) {
+     while (Serial.available()>0){
+        buffer = SPI.transfer(DUMMY);
         
-     //}
-     //}
+        if(buffer == NEED_WIFI){
+          //getWifiSsid(WifiSSID, &PWSSIDlength);
+          SpiTransferArray(WifiSSID);
+          SPI.transfer(PWSSIDlength);
+          //getWifiPW(WifiPW, , &PWSSIDlength);
+          SpiTransferrArray(WifiPw);
+          SPI.transfer(PWSSIDlength);
+        }
+        else if (buffer == NOP){  //else?
+          
+        }
+        
+      }
+     }
      
     //the serial buffer is over just go to the line (or pass your favorite stop char)               
     //Serial.println();
+  }
+  SpiTransferArray(uint8_t* data){
+    //TODO: code:
   }
   
   //SPI.transfer(e);
   //delay(20);
   //digitalWrite(15, HIGH);
- 
-  
