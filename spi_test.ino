@@ -3,9 +3,11 @@ uint8_t buffer1;
 const uint8_t DUMMY = 0xff;
 const uint8_t NOP = 0xff;
 const uint8_t NEED_WIFI = 0x02;
-const uint8_t DONE_SENDING = 0x3;
+const uint8_t WIFI_DATA = 0x3;
+const uint8_t DONE_SENDING = 0x4;
 const uint8_t NEED = 1;
 const uint8_t XNEED = 0;
+uint8_t testBuffer[2] = {0x89, 0x23};
 /*Mock wifiSSID*/ 
 uint8_t WifiSSID[8] = {0x89, 0x2d, 0x89, 0x78, 0x98, 0x54, 0x84, 0x28};
 uint8_t WifiPW[8] = {0x23, 0x18, 0x1d, 0xad, 0x03, 0x82, 0x92, 0x12};
@@ -47,6 +49,11 @@ void loop (void)
       /* SpiTransferArray(WifiSSID);
           //getWifiPW(WifiPW, , &PWSSIDlength);
        SpiTransferArray(WifiPW);*/
+       delay(1);
+       SPI.transfer(WIFI_DATA);
+       delay(1);
+       SpiTransferArray(WifiSSID);
+       SpiTransferArray(WifiPW);
        Serial.println("done");
        delay(1000);
         }
@@ -65,8 +72,9 @@ void SpiTransferArray(uint8_t* data){
     int i;
     for(i = 0;i < 8;i++){
       SPI.transfer(data[i]);
-      delay(10);
+      delay(1);
     }
+    delay(1);
   }
   
   //SPI.transfer(e);
