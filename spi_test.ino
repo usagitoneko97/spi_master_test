@@ -9,8 +9,8 @@ const uint8_t NEED = 1;
 const uint8_t XNEED = 0;
 uint8_t testBuffer[2] = {0x89, 0x23};
 /*Mock wifiSSID*/ 
-uint8_t WifiSSID[8] = {0x89, 0x2d, 0x89, 0x78, 0x98, 0x54, 0x84, 0x28};
-uint8_t WifiPW[8] = {0x23, 0x18, 0x1d, 0xad, 0x03, 0x82, 0x92, 0x12};
+uint8_t WifiSSID[8] = {0x2d, 0x2d, 0x89, 0x78, 0x98, 0x54, 0x84, 0x28};
+uint8_t WifiPW[8] = {0xba, 0x18, 0x1d, 0xad, 0x03, 0x82, 0x92, 0x12};
 
 void setup (void)
 {
@@ -34,13 +34,12 @@ void setup (void)
 void loop (void)
 {
   
- /* do{
-  buffer1 = SPI.transfer (c); 
-  Serial.println(buffer1, HEX);
-  delay(100);
-  }while(buffer1 != 0x85);
-  */
+    /*while(1){
+      SPI.transfer(NEED_WIFI);
+      delay(10);
+    }*/
      SPI.transfer(NEED_WIFI);
+     //delay(1);
      buffer1 = SPI.transfer(DUMMY);
         
      if(buffer1 == NEED){
@@ -49,8 +48,8 @@ void loop (void)
       /* SpiTransferArray(WifiSSID);
           //getWifiPW(WifiPW, , &PWSSIDlength);
        SpiTransferArray(WifiPW);*/
-       delay(1);
-       SPI.transfer(WIFI_DATA);
+       //delay(1);
+       //SPI.transfer(WIFI_DATA);
        delay(1);
        SpiTransferArray(WifiSSID);
        SpiTransferArray(WifiPW);
@@ -61,7 +60,7 @@ void loop (void)
          Serial.println("NOP");
        }
      Serial.println(buffer1);
-     delay(10);
+     delay(1);
     //the serial buffer is over just go to the line (or pass your favorite stop char)               
     //Serial.println();
 }
